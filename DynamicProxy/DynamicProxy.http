@@ -1,11 +1,11 @@
 @DynamicProxy_HostAddress = http://localhost:5108
 
-POST {{DynamicProxy_HostAddress}}/proxymanagnent?endpointName=test&forwardTo=http://wp.pl
+POST {{DynamicProxy_HostAddress}}/proxymanagnent?endpointName=loc&forwardTo=80
 Accept: application/json
 ###
 GET {{DynamicProxy_HostAddress}}/proxymanagnent?key=test
 Accept: application/json
 ###
-GET {{DynamicProxy_HostAddress}}/test/463
+GET {{DynamicProxy_HostAddress}}/loc/srfdygdretf
 Accept: application/json
 ###

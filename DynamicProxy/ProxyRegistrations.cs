@@ -15,10 +15,10 @@ namespace DynamicProxy
 
         public List<(RouteConfig,ClusterConfig)> GetAll()
         {
-            return Registrations.Select(x => (new RouteConfig
+            return Registrations.Select((x,i)=> (new RouteConfig
             {
                 RouteId = new Guid().ToString(),
-                ClusterId = "1",
+                ClusterId = i.ToString(),
                 Match = new RouteMatch
                 {
                     Path = $"{x.Key}/{{**catch-all}}"
@@ -26,12 +26,12 @@ namespace DynamicProxy
             },
             new ClusterConfig
             {
-                ClusterId = "1",
+                ClusterId = i.ToString(),
                 Destinations = new Dictionary<string, DestinationConfig>
                 {
-                    { "1", new DestinationConfig
+                    { i.ToString(), new DestinationConfig
                         {
-                            Address = x.Value
+                            Address = $"http://localhost:{x.Value}"
                         }
                     }
                 }
