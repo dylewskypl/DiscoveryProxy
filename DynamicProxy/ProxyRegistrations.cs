@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Microsoft.Extensions.Primitives;
 using Yarp.ReverseProxy.Configuration;
 
@@ -15,14 +15,15 @@ namespace DynamicProxy
 
         public List<(RouteConfig,ClusterConfig)> GetAll()
         {
-            return Registrations.Select((x,i)=> (new RouteConfig
+            return Registrations.Select((x,i) => (new RouteConfig
             {
                 RouteId = new Guid().ToString(),
                 ClusterId = i.ToString(),
                 Match = new RouteMatch
                 {
                     Path = $"{x.Key}/{{**catch-all}}"
-                }
+                },
+                Transforms = CreatePathTransform(x)
             },
             new ClusterConfig
             {
@@ -36,6 +37,13 @@ namespace DynamicProxy
                     }
                 }
             })).ToList();
+        }
+
+        private IReadOnlyList<IReadOnlyDictionary<string, string>>? CreatePathTransform(KeyValuePair<string, string> keyValuePair)
+        {
+            Dictionary<string, string> path = new Dictionary<string, string>();
+            path.Add("PathRemovePrefix", $"{keyValuePair.Key}");
+            return [path.AsReadOnly()];
         }
 
         public bool Register(string key, string value)
