@@ -15,7 +15,7 @@ namespace DynamicProxy
 
         public List<(RouteConfig,ClusterConfig)> GetAll()
         {
-            return Registrations.Select((x,i) => (new RouteConfig
+            return Registrations.DistinctBy(x => x.Key).Select((x,i) => (new RouteConfig
             {
                 RouteId = new Guid().ToString(),
                 ClusterId = i.ToString(),
