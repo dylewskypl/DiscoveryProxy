@@ -27,6 +27,7 @@ namespace DynamicProxy.Controllers
         }
 
         [HttpPost]
+        [HttpGet]
         public IResult Register(string endpointName, string forwardTo)
         {
             proxyEntries.Register(endpointName, forwardTo);
